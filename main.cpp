@@ -12,6 +12,7 @@ void agregar(int x);
 int sacar();
 void imprimir();
 void* producir(void*);
+void* consumir(void*);
 
 int N = 10, n = 0, salida = 0, entrada = 0;
 int* arr = new int[N];
@@ -61,5 +62,13 @@ void* producir(void* params){
         sleep(2);
         pthread_mutex_unlock(&mutex);
     }
+}
+void* consumir(void* params){
+	while(true){
+        pthread_mutex_lock(&mutex);
+		sacar();
+        pthread_mutex_unlock(&mutex);
+		sleep(3);
+	}
 }
 
