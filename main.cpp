@@ -20,6 +20,20 @@ pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 
 int main(){
+    int state1,state2;
+    pthread_t thread1,thread2,thread3,thread4,thread5;
+    pthread_create(&thread1, NULL, producir, NULL);
+    pthread_create(&thread2, NULL, producir, NULL);
+    pthread_create(&thread3, NULL, producir, NULL);
+    pthread_create(&thread4, NULL, consumir, NULL);
+    pthread_create(&thread5, NULL, consumir,NULL);
+    
+    while(true){
+        pthread_mutex_lock(&mutex);
+        imprimir();        
+        pthread_mutex_unlock(&mutex);
+        sleep(5);
+    }
 
 	return 0;
 }
@@ -59,8 +73,8 @@ void* producir(void* params){
         int x = rand()%100+1;
         pthread_mutex_lock(&mutex);
         agregar(x);
-        sleep(2);
         pthread_mutex_unlock(&mutex);
+        sleep(2);
     }
 }
 void* consumir(void* params){
@@ -68,7 +82,7 @@ void* consumir(void* params){
         pthread_mutex_lock(&mutex);
 		sacar();
         pthread_mutex_unlock(&mutex);
-		sleep(3);
+        sleep(3);	
 	}
 }
 
