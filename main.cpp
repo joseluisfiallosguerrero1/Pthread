@@ -9,7 +9,9 @@ using std::cout;
 using std::endl;
 
 void agregar(int x);
-void sacar();
+int sacar();
+void imprimir();
+void* producir(void*);
 
 int N = 10, n = 0, salida = 0, entrada = 0;
 int* arr = new int[N];
@@ -41,5 +43,23 @@ int sacar(){
         return x;
 	}
 	return -1;
+}
+
+void imprimir(){
+    for(int i = 0; i < n; i++){
+        cout << arr[(salida + i)%N] << " ";
+    }
+    cout << endl;
+}
+
+void* producir(void* params){
+    srand(time(NULL));
+    while(true){
+        int x = rand()%100+1;
+        pthread_mutex_lock(&mutex);
+        agregar(x);
+        sleep(2);
+        pthread_mutex_unlock(&mutex);
+    }
 }
 
