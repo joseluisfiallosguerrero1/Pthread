@@ -9,6 +9,7 @@ using std::cout;
 using std::endl;
 
 void agregar(int x);
+void sacar();
 
 int N = 10, n = 0, salida = 0, entrada = 0;
 int* arr = new int[N];
@@ -30,3 +31,15 @@ void agregar(int x){
     	agregar(x);
     }
 }
+
+int sacar(){
+	if(n>0){
+		int x = arr[salida];
+        salida = (salida+1)%N;
+        n--;
+        pthread_cond_signal(&cond);
+        return x;
+	}
+	return -1;
+}
+
